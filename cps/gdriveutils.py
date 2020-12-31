@@ -311,7 +311,7 @@ def moveGdriveFileRemote(origin_file_id, new_title):
     origin_file_id.Upload()
 
 
-# Download metadata.db from gdrive
+# Download metadata (calibre-web).db from gdrive
 def downloadFile(path, filename, output):
     f = getFileFromEbooksFolder(path, filename)
     f.GetContentFile(output)

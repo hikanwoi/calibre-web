@@ -286,7 +286,7 @@ class _ConfigSQL(object):
         have_metadata_db = bool(self.config_calibre_dir)
         if have_metadata_db:
             if not self.config_use_google_drive:
-                db_file = os.path.join(self.config_calibre_dir, 'metadata.db')
+                db_file = os.path.join(self.config_calibre_dir, 'metadata (calibre-web).db')
                 have_metadata_db = os.path.isfile(db_file)
         self.db_configured = have_metadata_db
         constants.EXTENSIONS_UPLOAD = [x.lstrip().rstrip().lower() for x in self.config_upload_formats.split(',')]

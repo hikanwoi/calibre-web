@@ -728,9 +728,9 @@ def _configuration_update_helper():
         _configuration_result(_(u"Settings DB is not Writeable"), gdriveError)
 
     try:
-        metadata_db = os.path.join(config.config_calibre_dir, "metadata.db")
+        metadata_db = os.path.join(config.config_calibre_dir, "metadata (calibre-web).db")
         if config.config_use_google_drive and is_gdrive_ready() and not os.path.exists(metadata_db):
-            gdriveutils.downloadFile(None, "metadata.db", metadata_db)
+            gdriveutils.downloadFile(None, "metadata (calibre-web).db", metadata_db)
             db_change = True
     except Exception as e:
         return _configuration_result('%s' % e, gdriveError)
@@ -738,7 +738,7 @@ def _configuration_update_helper():
     if db_change:
         if not calibre_db.setup_db(config, ub.app_DB_path):
             return _configuration_result(_('DB Location is not Valid, Please Enter Correct Path'), gdriveError)
-        if not os.access(os.path.join(config.config_calibre_dir, "metadata.db"), os.W_OK):
+        if not os.access(os.path.join(config.config_calibre_dir, "metadata (calibre-web).db"), os.W_OK):
             flash(_(u"DB is not Writeable"), category="warning")
 
     config.save()

@@ -448,7 +448,7 @@ class CalibreDB():
             config.invalidate()
             return False
 
-        dbpath = os.path.join(config.config_calibre_dir, "metadata.db")
+        dbpath = os.path.join(config.config_calibre_dir, "metadata (calibre-web).db")
         if not os.path.exists(dbpath):
             config.invalidate()
             return False

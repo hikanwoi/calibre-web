@@ -141,19 +141,19 @@ def on_received_watch_confirmation():
         log.debug('%r', response)
         if response:
             if sys.version_info < (3, 0):
-                dbpath = os.path.join(config.config_calibre_dir, "metadata.db")
+                dbpath = os.path.join(config.config_calibre_dir, "metadata (calibre-web).db")
             else:
-                dbpath = os.path.join(config.config_calibre_dir, "metadata.db").encode()
-            if not response['deleted'] and response['file']['title'] == 'metadata.db' \
+                dbpath = os.path.join(config.config_calibre_dir, "metadata (calibre-web).db").encode()
+            if not response['deleted'] and response['file']['title'] == 'metadata (calibre-web).db' \
                 and response['file']['md5Checksum'] != hashlib.md5(dbpath):
                 tmpDir = tempfile.gettempdir()
                 log.info('Database file updated')
-                copyfile(dbpath, os.path.join(tmpDir, "metadata.db_" + str(current_milli_time())))
-                log.info('Backing up existing and downloading updated metadata.db')
-                gdriveutils.downloadFile(None, "metadata.db", os.path.join(tmpDir, "tmp_metadata.db"))
+                copyfile(dbpath, os.path.join(tmpDir, "metadata (calibre-web).db_" + str(current_milli_time())))
+                log.info('Backing up existing and downloading updated metadata (calibre-web).db')
+                gdriveutils.downloadFile(None, "metadata (calibre-web).db", os.path.join(tmpDir, "tmp_metadata (calibre-web).db"))
                 log.info('Setting up new DB')
                 # prevent error on windows, as os.rename does on exisiting files
-                move(os.path.join(tmpDir, "tmp_metadata.db"), dbpath)
+                move(os.path.join(tmpDir, "tmp_metadata (calibre-web).db"), dbpath)
                 calibre_db.reconnect_db(config, ub.app_DB_path)
     except Exception as e:
         log.exception(e)
