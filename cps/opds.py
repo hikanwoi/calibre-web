@@ -33,7 +33,8 @@ from werkzeug.security import check_password_hash
 from . import constants, logger, config, db, calibre_db, ub, services, get_locale, isoLanguages
 from .helper import get_download_link, get_book_cover
 from .pagination import Pagination
-from .web import render_read_books, download_required, load_user_from_request
+from .web import render_read_books
+from .usermanagement import load_user_from_request
 from flask_babel import gettext as _
 from babel import Locale as LC
 from babel.core import UnknownLocaleError
@@ -429,7 +430,12 @@ def check_auth(username, password):
             username = username.encode('utf-8')
     user = ub.session.query(ub.User).filter(func.lower(ub.User.nickname) ==
                                             username.decode('utf-8').lower()).first()
-    return bool(user and check_password_hash(str(user.password), password))
+    if bool(user and check_password_hash(str(user.password), password)):
+        return True
+    else:
+        ipAdress = request.headers.get('X-Forwarded-For', request.remote_addr)
+        log.warning('OPDS Login failed for user "%s" IP-address: %s', username.decode('utf-8'), ipAdress)
+        return False
 
 
 def authenticate():
