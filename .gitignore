@@ -30,6 +30,8 @@ settings.yaml
 gdrive_credentials
 client_secrets.json
 
-.history
-myenv
+.history/**/*
+myenv/**/*
 *.bat
+logs/**/*
+*.whl
