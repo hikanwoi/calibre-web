@@ -58,6 +58,8 @@ from .redirect import redirect_back
 from .usermanagement import login_required_if_no_ano
 from .render_template import render_title_template
 
+from .shelf import render_show_shelf
+
 feature_support = {
     'ldap': bool(services.ldap),
     'goodreads': bool(services.goodreads_support),
@@ -715,8 +717,14 @@ def render_search_results(term, offset=None, order=None, limit=None):
 @web.route('/page/<int:page>')
 @login_required_if_no_ano
 def index(page):
-    sort_param = (request.args.get('sort') or 'stored').lower()
-    return render_books_list("newest", sort_param, 1, page)
+    if len(list(request.args.keys())) > 0:
+        sort_param = (request.args.get('sort') or 'stored').lower()
+        return render_books_list("newest", sort_param, 1, page)
+    else:
+        shelf_id = 26
+        page = 1
+        sort_param = "order"
+        return render_show_shelf(1, shelf_id, page, sort_param)
 
 
 @web.route('/<data>/<sort_param>', defaults={'page': 1, 'book_id': "1"})
